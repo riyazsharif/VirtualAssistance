@@ -1,0 +1,106 @@
+import React, { useContext, useState } from "react";
+import bg from "../assets/authBg.png";
+import { IoEye } from "react-icons/io5";
+import { IoEyeOff } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
+import { UserDataContext } from "../context/userContext";
+import axios from "axios";
+const SignIn = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const { serverUrl, setUserData } = useContext(UserDataContext);
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState("");
+  const [password, setPassword] = useState("");
+  const [err, setErr] = useState("");
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    setErr("");
+    setLoading(true);
+    try {
+      let result = await axios.post(
+        `${serverUrl}/api/auth/signin`,
+        { email, password },
+        { withCredentials: true }
+      );
+      setUserData(result.data);
+      setLoading(false);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      setUserData(null);
+      setLoading(false);
+      if (error.response && error.response.data && error.response.data.message) {
+        setErr(error.response.data.message);
+      } else if (error.code === 'ERR_NETWORK' || error.message.includes('Network Error')) {
+        setErr("Cannot connect to server. Please make sure the backend server is running.");
+      } else {
+        setErr("An error occurred. Please try again.");
+      }
+    }
+  };
+  return (
+    <div
+      className="w-full h-[100vh] bg-cover flex justify-center items-center"
+      style={{ backgroundImage: `url(${bg})` }}
+    >
+      <form
+        className="w-[90%] h-[600px] max-w-[500px] bg-[#0000004f] backdrop-blur shadow-lg shadow-black flex flex-col items-center justify-center gap-[20px] px-[20px]"
+        onSubmit={handleSignIn}
+      >
+        <h1 className="text-white text-[30px] font-semibold mb-[30px]">
+          Sign In to <span className="text-blue-400">Virtual Assistant</span>
+        </h1>
+
+        <input
+          type="email"
+          placeholder="Email "
+          className="w-full h-[60px] outline-none border-2 border-white bg-transparent text-white placeholder-gray-300 px-[20px] py-[10px] rounded-full text-[18px]"
+          required
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+        />
+
+        <div className="w-full h-[60px] border-2 border-white bg-transparent text-white rounded-full text-[18px] relative ">
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="password"
+            className="w-full h-full rounded-full outline-none bg-transparent placeholder-gray-300 px-[20px] py-[10px] "
+            required
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+          />
+          {!showPassword && (
+            <IoEye
+              className="absolute top-[18px] right-[20px] w-[25px] h-[25px] text-white cursor-pointer"
+              onClick={() => setShowPassword(true)}
+            />
+          )}
+
+          {showPassword && (
+            <IoEyeOff
+              className="absolute top-[18px] right-[20px] w-[25px] h-[25px] text-white cursor-pointer"
+              onClick={() => setShowPassword(false)}
+            />
+          )}
+        </div>
+        {err.length && <p className="text-red-500 text-[17px]">*{err}</p>}
+        <button
+          className="min-w-[150px] mt-[30px] h-[60px] bg-white rounded-full text-black font-semibold text-[19px]"
+          onClick={handleSignIn}
+          disabled={loading}
+        >
+          {loading ? "Loading...." : "Sign In"}
+        </button>
+        <p className="text-white text-[18px] cursor-pointer">
+          Want to create a new account ?{" "}
+          <span className="text-blue-400" onClick={() => navigate("/signup")}>
+            Sign Up
+          </span>
+        </p>
+      </form>
+    </div>
+  );
+};
+
+export default SignIn;
