@@ -1,4 +1,4 @@
-# 🤖 VirtualAssistance
+<img width="1919" height="927" alt="Screenshot 2026-01-03 221800" src="https://github.com/user-attachments/assets/47c0ad75-92e4-4f6f-8fbe-e5735735844b" /># 🤖 VirtualAssistance
 
 VirtualAssistance is an **AI-powered virtual assistant web application** that allows users to select, customize, and interact with a virtual assistant.  
 The project is built with a modern UI, React Context API, and secure backend APIs.
@@ -15,7 +15,8 @@ The project is built with a modern UI, React Context API, and secure backend API
 - 🎨 Assistant Customization
 - <img width="1917" height="919" alt="Screenshot 2026-01-03 221748" src="https://github.com/user-attachments/assets/72beca8e-8906-4b88-94d2-09fc68a8fe8f" />
 - 🔐 User Authentication (Login / Logout)
-- ![Uploading Screenshot 2026-01-03 221800.png…]()
+ <img width="1919" height="927" alt="Screenshot 2026-01-03 221800" src="https://github.com/user-attachments/assets/441ac92b-c07f-4902-a398-605bb1a8da9d" />
+
 - 🌐 Separate Frontend and Backend
 - ⚡ Fast performance using Vite + React
 - ☁️ Deployed on Render
